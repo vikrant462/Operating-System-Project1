@@ -17,7 +17,7 @@ Waiting Time(W.T): Time Difference between turn around time and burst time.
 */
 
 
-int n=0;
+int n=0,option=-1;
 
 void gotoxy(long x, long y) 
       {
@@ -127,8 +127,7 @@ homepage()
 ////////////////////////////////////////////////////
 void frame()
 {
-	//loading();
-	//system("cls");
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),4 );
 	int i;
 	
 	for(i=0;i<91;i++)
@@ -136,6 +135,8 @@ void frame()
 		gotoxy(11+i,3);
 		printf("%c",205);
 		gotoxy(11+i,6);
+		printf("%c",247);
+		gotoxy(11+i,2*n+7);
 		printf("%c",247);
 	}
 	////////////////
@@ -164,15 +165,15 @@ void frame()
     gotoxy(89,5);
     printf("   time");
 	////////////////
-    for(i=1;i<16;i++)
+    for(i=0;i<n*2+4;i++)
 	{
-		gotoxy(11,i+6);
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),i );
+		gotoxy(11,i+4);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),2 );
 		//printf("%c",186);
 		printf("%c",179);
 		printf("%c",177);
 		
-		gotoxy(100,i+6);
+		gotoxy(100,i+4);
 		printf("%c",177);
 		printf("%c",179);
 		//printf("||");
@@ -181,55 +182,95 @@ void frame()
 /////////////////////////////////////////////////////////////////////////////
 void display(struct Process P[n])
 {
-	//homepage();
-	//sleep(3);
-	//getch();
-	frame();
-	int i,l=0;
+	//frame();
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),2 );
+	int i,l=0,b=0;
 	//n=7;
 	for(i=0;i<n;i++)
     {
-    	l+=2;
+    l+=2;
 	  //gotoxy(12,5+i);
 	gotoxy(15,6+l);
 	if(P[i].P_ID==-5)
-    printf("%c",196);
+    printf("   %c       %c",196,186);
     else
-    printf("P%d",P[i].P_ID);
+    {
+    printf("           %c",186);
+    gotoxy(15,6+l);
+    printf("   P%d",P[i].P_ID);
+    }
+    
     gotoxy(30,6+l);
     if(P[i].arrival_time==-5)
-    printf("%c",196);
-    else
-    printf("%d",P[i].arrival_time);
+    printf("   %c       %c",196,186);
+    else{
+    printf("           %c",186);
+    gotoxy(30,6+l);
+    printf("   %d",P[i].arrival_time);
+    }
     gotoxy(45,6+l);
     if(P[i].burst_time==-5)
-    printf("%c",196);
-    else
-    printf("%d",P[i].burst_time);
+    printf("   %c       %c",196,186);
+    else{
+    printf("           %c",186);
+    gotoxy(45,6+l);
+    printf("   %d",P[i].burst_time);
+    }
     gotoxy(60,6+l);
     if(P[i].completion_time==-5)
-    printf("%c",196);
-    else
-    printf("%d",P[i].completion_time);
+    printf("   %c       %c",196,186);
+    else{
+    printf("           %c",186);
+    gotoxy(60,6+l);
+    printf("   %d",P[i].completion_time);
+    }
     gotoxy(75,6+l);
     if(P[i].waiting_time==-5)
-    printf("%c",196);
-    else
-    printf("%d",P[i].waiting_time);
+    printf("   %c       %c",196,186);
+    else{
+    printf("           %c",186);
+    gotoxy(75,6+l);
+    printf("   %d",P[i].waiting_time);
+    }
     gotoxy(89,6+l);
     if(P[i].turnaround_time==-5)
-    printf("%c",196);
-    else
-    printf("%d",P[i].turnaround_time);
+    printf("   %c       ",196);
+    else{
+    printf("           %c",186);
+    gotoxy(89,6+l);
+    printf("   %d",P[i].turnaround_time);
     }
+    int j;
+    for(j=0;j<87;j++)
+    {
+    gotoxy(13+j,6+l+1);
+    if(j%15==13)
+    printf("%c",206);
+    else
+    printf("%c",205);
+	}
+	}
+	frame();
+	
 }
 ///////////////////////////////////////////////////////////////////////////////
 int main()
 {
+	homepage();
+	//sleep(3);
+	getch();
+	system("cls");
+	//loading();
+	system("cls");
 	int i,j,l=0,burst_count=0;
-	gotoxy(30,5);
-	printf("Enter The number of Process to enter\n");
+	for(i=0;i<50;i++)
+	{
+	gotoxy(30+i,5);
+	printf("%c",177);
+    }
 	gotoxy(30,6);
+	printf("Enter The number of Process to enter");
+	gotoxy(30,7);
 	scanf("%d",&n);
 	system("cls");
 	
@@ -245,10 +286,10 @@ int main()
     	l+=2;
     	display(P);
     	gotoxy(41,2*n+12);
-    	printf("Enter arrival time for %d process\n",i+1);
+    	printf("Enter arrival time for process %d\n",i+1);
     	P[i].P_ID=i+1;
     	P[i].flag=0;
-    	gotoxy(30,6+l);
+    	gotoxy(33,6+l);
 	    scanf("%d",&P[i].arrival_time);
 	    
 	    P[i].burst_time=2*P[i].arrival_time;
@@ -271,21 +312,52 @@ int main()
 	/////////////////////////////////////////////////
 	system("cls");
 	gotoxy(40,2);
-	printf("Table After Sorting The Arrival Time\n");
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),6);
+	printf("Table After Sorting The Arrival Time");
    	display(P);
-   	getch();
+   	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),6);
+   	gotoxy(30,n*2+11);
+   	printf("Scheduler selects the process with ");
+   	gotoxy(33,n*2+12);
+   	printf("Enter 1 For-> largest burst time");
+   	gotoxy(33,n*2+13);
+   	printf("Enter 2 For->Shortest Job First scheduling approach");
+   	gotoxy(30,n*2+14);
+   	printf("from the queue for the execution.");
+	gotoxy(30,n*2+15);
+	scanf("%d",&option);
+   	//getch();
+   	system("cls");
+   	
+   	gotoxy(40,2);
+   	if(option==1)
+	printf("Table According to Largest Burst Time\n");
+	gotoxy(30,2);
+	if(option==2)
+	printf("Table According to Shortest Job First scheduling approach \n");
 	///////////////////////////////////////////////////
-	int time_t=P[0].arrival_time,count_n=0,temp_i=0,prev_temp_i=-3;
+	int time_t=P[0].arrival_time,count_n=0,temp_i=0,prev_temp_i=-3,temp_opt=-1;
     do
 	{
-		int max=0;
+		int max=0,min=99999;
+		if(option==1)
+		temp_opt=max;
+		if(option==2)
+		temp_opt=min;
+		
 		for(i=0;P[i].arrival_time<=time_t && i<n;i++)
 		{
 			//finding the biggest burst time at time time_t
 	        //if P[i].flag=555 then it means this process is already done
-	        	if(P[i].burst_time>=max &&P[i].flag==0)
+	        	if(option==1 && P[i].burst_time>=temp_opt &&P[i].flag==0)
 	        	{
-	        	max=P[i].burst_time;
+	        	temp_opt=P[i].burst_time;
+	        	temp_i=i;
+	            }
+	            
+	            if(option==2 && P[i].burst_time<=temp_opt &&P[i].flag==0)
+	        	{
+	        	temp_opt=P[i].burst_time;
 	        	temp_i=i;
 	            }
         }
@@ -296,7 +368,7 @@ int main()
 		else
 		{
         printf("\n");
-        P[temp_i].completion_time=time_t+max;
+        P[temp_i].completion_time=time_t+temp_opt;
         P[temp_i].turnaround_time=P[temp_i].completion_time-P[temp_i].arrival_time;
         P[temp_i].waiting_time=P[temp_i].turnaround_time-P[temp_i].burst_time;
         
@@ -305,8 +377,8 @@ int main()
 		//printf("%d :  %d   :  %d======",P[temp_i].arrival_time,P[temp_i].burst_time,P[temp_i].flag);
         //printf("%d : %d\n",temp_i,max);
         P[temp_i].flag=555;
-        time_t+=max;
-        burst_count-=max;
+        time_t+=temp_opt;
+        burst_count-=temp_opt;
         }
         prev_temp_i=temp_i;
         
