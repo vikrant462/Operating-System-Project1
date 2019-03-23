@@ -260,7 +260,7 @@ int main()
 	//sleep(3);
 	getch();
 	system("cls");
-	//loading();
+	loading();
 	system("cls");
 	int i,j,l=0,burst_count=0;
 	for(i=0;i<50;i++)
