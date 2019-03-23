@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include<unistd.h>
+#include <unistd.h>
+#include <time.h>
+#include<conio.h>
+#include<windows.h>
+
 /*
 Arrival Time:       Time at which the process arrives in the ready queue.
 Completion Time:    Time at which process completes its execution.
@@ -11,26 +15,242 @@ Turn Around Time:   Time Difference between completion time and arrival time.
 Waiting Time(W.T): Time Difference between turn around time and burst time.
      Waiting Time = Turn Around Time - Burst Time
 */
+
+
+int n=0;
+
+void gotoxy(long x, long y) 
+      {
+           COORD pos = {x, y};
+           SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+      }
+
 struct Process
 {
-    int P_ID,arrival_time,burst_time,completion_time,waiting_time,turnaround_time,flag;
-}Process;
-
+	int P_ID,arrival_time,burst_time,completion_time,waiting_time,turnaround_time,flag;
+};
+/////////////////////////////////////////////////////////////////////////////////////
+loading()
+{
+	system("cls");
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),4);
+	int i,a=100000*0.5,b=100000*0.25,c=100000*0.125,u;
+	gotoxy(50,3);
+	printf("LOADING");
+	for(i=0;i<30;i++)
+	{
+	    if(i<10)
+	    u=a;
+	    else if(i<20)
+	    u=b;
+	    else
+	    u=c;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),i%13+1 );
+		gotoxy(40+i,4);
+		printf("%c",220);
+		gotoxy(40+i,2);
+		printf("%c",186);
+		gotoxy(40+i,2);
+		printf("|");
+		usleep(u);
+		gotoxy(40+i,2);
+		printf("/");
+		usleep(u);
+		gotoxy(40+i,2);
+		printf("%c",196);
+		usleep(u);
+		int count=0;
+		gotoxy(40+i,2);
+		printf("\\");
+		usleep(u);
+		
+		gotoxy(40+i,2);
+		if(count<5)
+		printf("%c",176);
+		if(count>=5<10)
+		printf("%c",177);
+		else
+		printf("%c",177);
+		count++;
+	}
+}
+///////////////////////////////////////////////////////////////////////////////////////
+homepage()
+{
+	system("cls");
+	
+		//SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_RED | BACKGROUND_GREEN |BACKGROUND_RED|BACKGROUND_BLUE | FOREGROUND_INTENSITY | BACKGROUND_INTENSITY  );
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_RED );
+	int i;
+	printf("\n\n\n");
+	printf("\t    ****************************************************************************************\n");
+	printf("\t   |\t\t                    LOVELY PROFESSIONAL UNIVERSITY                          |\n");
+	printf("\t   |\t\t           Department Of Computer Science And Engineering                   |\n");
+	printf("\t   |\t\t                                                                            |\n");
+	printf("\t   |\t\t                       A MINI PROJECT ON                                    |\n");
+	printf("\t   |\t\t                                                                            |\n");
+	printf("\t   |\t\t                        Operating System                                    |\n");
+	printf("\t   |\t\t                                                                            |\n");
+	printf("\t   |\t\t        BY:                                         GUIDE:                  |\n");
+	printf("\t   |\t\t     -------------                                -----------               |\n");
+	printf("\t   |\t\t   VIKRANT CHAUDHARY                         Mrs        |\n");
+	printf("\t   |\t\t   Reg No.-> 11703065                                                       |\n");
+	printf("\t   |\t\t   Roll NO.->44                                                             |\n");
+    printf("\t    ****************************************************************************************\n\n");
+	
+	for(i=0;i<13;i++)
+	{
+		gotoxy(11,i+3);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),i );
+		printf("%c",204);
+		printf("%c",185);
+		gotoxy(100,i+3);
+		
+		printf("%c",204);
+		printf("%c",185);
+	}
+	int k;
+	for(i=0;i<92;i++)
+	{
+		if(i>9)
+		k=i%10;
+		else
+        k=i;
+		gotoxy(10+i,3);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),k);
+		printf("*");
+		gotoxy(10+i,16);
+		printf("*");
+	
+	}
+}
+////////////////////////////////////////////////////
+void frame()
+{
+	//loading();
+	//system("cls");
+	int i;
+	
+	for(i=0;i<91;i++)
+	{
+		gotoxy(11+i,3);
+		printf("%c",205);
+		gotoxy(11+i,6);
+		printf("%c",247);
+	}
+	////////////////
+	gotoxy(15,4);
+    printf("Process");
+    gotoxy(15,5);
+    printf("  ID");
+    gotoxy(30,4);
+    printf("Arrival");
+    gotoxy(30,5);
+    printf(" time");
+    gotoxy(45,4);
+    printf("Burst");
+    gotoxy(45,5);
+    printf("time");
+    gotoxy(60,4);
+    printf("Completion");
+    gotoxy(60,5);
+    printf("   time");
+    gotoxy(75,4);
+    printf("Waiting");
+    gotoxy(75,5);
+    printf(" time");
+    gotoxy(89,4);
+    printf("TurnAround");
+    gotoxy(89,5);
+    printf("   time");
+	////////////////
+    for(i=1;i<16;i++)
+	{
+		gotoxy(11,i+6);
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),i );
+		//printf("%c",186);
+		printf("%c",179);
+		printf("%c",177);
+		
+		gotoxy(100,i+6);
+		printf("%c",177);
+		printf("%c",179);
+		//printf("||");
+	}
+}
+/////////////////////////////////////////////////////////////////////////////
+void display(struct Process P[n])
+{
+	//homepage();
+	//sleep(3);
+	//getch();
+	frame();
+	int i,l=0;
+	//n=7;
+	for(i=0;i<n;i++)
+    {
+    	l+=2;
+	  //gotoxy(12,5+i);
+	gotoxy(15,6+l);
+	if(P[i].P_ID==-5)
+    printf("%c",196);
+    else
+    printf("P%d",P[i].P_ID);
+    gotoxy(30,6+l);
+    if(P[i].arrival_time==-5)
+    printf("%c",196);
+    else
+    printf("%d",P[i].arrival_time);
+    gotoxy(45,6+l);
+    if(P[i].burst_time==-5)
+    printf("%c",196);
+    else
+    printf("%d",P[i].burst_time);
+    gotoxy(60,6+l);
+    if(P[i].completion_time==-5)
+    printf("%c",196);
+    else
+    printf("%d",P[i].completion_time);
+    gotoxy(75,6+l);
+    if(P[i].waiting_time==-5)
+    printf("%c",196);
+    else
+    printf("%d",P[i].waiting_time);
+    gotoxy(89,6+l);
+    if(P[i].turnaround_time==-5)
+    printf("%c",196);
+    else
+    printf("%d",P[i].turnaround_time);
+    }
+}
+///////////////////////////////////////////////////////////////////////////////
 int main()
 {
-	int n,i,j,burst_count=0;
+	int i,j,l=0,burst_count=0;
+	gotoxy(30,5);
 	printf("Enter The number of Process to enter\n");
+	gotoxy(30,6);
 	scanf("%d",&n);
+	system("cls");
 	
     struct Process P[n];
+    ///////initallizing the struct
     for(i=0;i<n;i++)
     {
-    	P[i].P_ID=i+1;
+    	P[i].arrival_time=-5,P[i].burst_time=-5,P[i].completion_time=-5,P[i].P_ID=-5;
+    	P[i].turnaround_time=-5,P[i].waiting_time=-5;
+	}
+    for(i=0;i<n;i++)
+    {
+    	l+=2;
+    	display(P);
+    	gotoxy(41,2*n+12);
     	printf("Enter arrival time for %d process\n",i+1);
+    	P[i].P_ID=i+1;
+    	P[i].flag=0;
+    	gotoxy(30,6+l);
 	    scanf("%d",&P[i].arrival_time);
 	    
-	    //printf("Enter burst time for %d process\n",i+1);
-	    //scanf("%d",&P[i].burst_time);
 	    P[i].burst_time=2*P[i].arrival_time;
 	    burst_count+=P[i].burst_time;
 	}
@@ -49,36 +269,47 @@ int main()
 	    }
 	}
 	/////////////////////////////////////////////////
-   /*	for(i=0;i<n;i++)
-    {
-	    printf("%d  :  %d\n",P[i].arrival_time,P[i].burst_time);
-	}*/
+	system("cls");
+	gotoxy(40,2);
+	printf("Table After Sorting The Arrival Time\n");
+   	display(P);
+   	getch();
 	///////////////////////////////////////////////////
-	int time_t=P[0].arrival_time,count_n=0;
+	int time_t=P[0].arrival_time,count_n=0,temp_i=0,prev_temp_i=-3;
     do
 	{
-		int max=0,temp_i;
-		for(i=0;P[i].arrival_time<=time_t;i++)
+		int max=0;
+		for(i=0;P[i].arrival_time<=time_t && i<n;i++)
 		{
 			//finding the biggest burst time at time time_t
 	        //if P[i].flag=555 then it means this process is already done
-	        	if(P[i].burst_time>=max && P[i].flag!=555)
+	        	if(P[i].burst_time>=max &&P[i].flag==0)
 	        	{
 	        	max=P[i].burst_time;
 	        	temp_i=i;
 	            }
         }
+        if(prev_temp_i==temp_i)
+        {
+           time_t+=1;
+		}
+		else
+		{
+        printf("\n");
+        P[temp_i].completion_time=time_t+max;
+        P[temp_i].turnaround_time=P[temp_i].completion_time-P[temp_i].arrival_time;
+        P[temp_i].waiting_time=P[temp_i].turnaround_time-P[temp_i].burst_time;
         
-		
+        display(P);
+        getch();
+		//printf("%d :  %d   :  %d======",P[temp_i].arrival_time,P[temp_i].burst_time,P[temp_i].flag);
+        //printf("%d : %d\n",temp_i,max);
         P[temp_i].flag=555;
-        P[i].completion_time=time_t+max;
-        P[i].turnaround_time=P[i].completion_time-P[i].arrival_time;
-        P[i].waiting_time=P[i].turnaround_time-P[i].burst_time;
-        
-        printf("%d :  %d  :   %d======",P[temp_i].arrival_time,P[temp_i].burst_time,P[i].completion_time);
-        printf("%d : %d\n",burst_count,max);
         time_t+=max;
         burst_count-=max;
+        }
+        prev_temp_i=temp_i;
         
 	}while(burst_count>0);
+	gotoxy(30,n*2+15);
 }
