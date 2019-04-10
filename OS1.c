@@ -145,7 +145,7 @@ homepage()
 	}
 }
 //////////////////////////////////////////////////////////////////////////
-gant_chart(int gant[n],int r[n])
+gant_chart(int gant[n],int r[n],int strt)
 {
 	int i,j=1;
 	
@@ -154,13 +154,13 @@ gant_chart(int gant[n],int r[n])
 		
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),1);
 		gotoxy(43,2*n+17);
-		printf("%d",0);
+		printf("%d",strt);
 	for(i=0;gant[i]!=99 && i<n ;i++)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),i+1);
 		j+=7;
 		gotoxy(37+j,2*n+15);
-		printf("P%d",gant[i]+1);
+		printf("P%d",gant[i]);
 		gotoxy(35+j,2*n+16);
 		printf("%c%c%c%c%c%c",219,219,219,219,219,219);
 		gotoxy(40+j,2*n+17);
@@ -441,10 +441,10 @@ int main()
         P[temp_i].completion_time=time_t+temp_opt;
         P[temp_i].turnaround_time=P[temp_i].completion_time-P[temp_i].arrival_time;
         P[temp_i].waiting_time=P[temp_i].turnaround_time-P[temp_i].burst_time;
-        gant[v]=temp_i;
+        gant[v]=P[temp_i].P_ID;
         r[v++]=P[temp_i].completion_time;
         display(P);
-        gant_chart(gant,r);
+        gant_chart(gant,r,P[0].arrival_time);
         
         getch();
         P[temp_i].flag=555;
