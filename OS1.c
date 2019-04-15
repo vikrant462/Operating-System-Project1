@@ -25,11 +25,13 @@ void gotoxy(long x, long y)
            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
       }
 /////////////////////////////////////
+//creating struct for the process
 struct Process
 {
 	int P_ID,arrival_time,burst_time,completion_time,waiting_time,turnaround_time,flag;
 };
 ////////////////////
+//for calculating the average waiting and turn_around time
 average(struct Process P[n])
 {
 	int i;
@@ -49,11 +51,12 @@ average(struct Process P[n])
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
+// to give interactive look
 loading()
 {
 	system("cls");
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),4);
-	int i,a=100000*0.5,b=100000*0.25,c=100000*0.125,u;
+	int i,a=100000*0.25,b=100000*0.125,c=100000*0.0625,u;
 	gotoxy(50,3);
 	printf("LOADING");
 	for(i=0;i<30;i++)
@@ -94,6 +97,7 @@ loading()
 	}
 }
 ///////////////////////////////////////////////////////////////////////////////////////
+//homepage format
 homepage()
 {
 	
@@ -145,6 +149,7 @@ homepage()
 	}
 }
 //////////////////////////////////////////////////////////////////////////
+//forming and displaying gant_chart
 gant_chart(int gant[n],int r[n],int strt)
 {
 	int i,j=1;
@@ -169,6 +174,7 @@ gant_chart(int gant[n],int r[n],int strt)
 	}
 }
 ////////////////////////////////////////////////////
+//for creating the frame for the process table
 void frame()
 {
 	
@@ -248,6 +254,7 @@ void frame()
 	}
 }
 /////////////////////////////////////////////////////////////////////////////
+//displaying all the value inside  the table
 void display(struct Process P[n])
 {
 	//frame();
@@ -322,6 +329,7 @@ void display(struct Process P[n])
 	
 }
 ///////////////////////////////////////////////////////////////////////////////
+// main program executes here
 int main()
 {
 	homepage();
