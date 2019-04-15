@@ -113,9 +113,9 @@ homepage()
 	printf("\t   |\t\t                                                                            |\n");
 	printf("\t   |\t\t        BY:                                         GUIDE:                  |\n");
 	printf("\t   |\t\t     -------------                                -----------               |\n");
-	printf("\t   |\t\t   VIKRANT CHAUDHARY                         Mrs        |\n");
+	printf("\t   |\t\t   VIKRANT CHAUDHARY                           Mrs.  RICHA SHARMA           |\n");
 	printf("\t   |\t\t   Reg No.-> 11703065                                                       |\n");
-	printf("\t   |\t\t   Roll NO.->44                                                             |\n");
+	printf("\t   |\t\t   Roll NO.->44                                Section: K17PD               |\n");
     printf("\t    ****************************************************************************************\n\n");
 	
 	for(i=0;i<13;i++)
@@ -401,7 +401,7 @@ int main()
    	
    	gotoxy(25,2);
    	if(option==1)
-	printf("Table According to Largest Burst Time\n");
+	printf("        Table According to Largest Burst Time\n");
 	gotoxy(25,2);
 	if(option==2)
 	printf("Table According to Shortest Job First scheduling approach \n");
