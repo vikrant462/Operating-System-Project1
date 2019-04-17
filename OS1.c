@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
-#include<conio.h>
-#include<windows.h>
+#include <conio.h>
+#include <windows.h>
 
 /*
 Arrival Time:       Time at which the process arrives in the ready queue.
@@ -25,13 +25,11 @@ void gotoxy(long x, long y)
            SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
       }
 /////////////////////////////////////
-//creating struct for the process
 struct Process
 {
 	int P_ID,arrival_time,burst_time,completion_time,waiting_time,turnaround_time,flag;
 };
 ////////////////////
-//for calculating the average waiting and turn_around time
 average(struct Process P[n])
 {
 	int i;
@@ -51,7 +49,6 @@ average(struct Process P[n])
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
-// to give interactive look
 loading()
 {
 	system("cls");
@@ -97,7 +94,6 @@ loading()
 	}
 }
 ///////////////////////////////////////////////////////////////////////////////////////
-//homepage format
 homepage()
 {
 	
@@ -149,8 +145,7 @@ homepage()
 	}
 }
 //////////////////////////////////////////////////////////////////////////
-//forming and displaying gant_chart
-gant_chart(int gant[n],int r[n],int strt)
+gant_chart(int gant[n],int end[n],int strt[n])
 {
 	int i,j=1;
 	
@@ -158,8 +153,8 @@ gant_chart(int gant[n],int r[n],int strt)
 		printf("Gant Chart");
 		
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),1);
-		gotoxy(43,2*n+17);
-		printf("%d",strt);
+		//gotoxy(43,2*n+17);
+		//printf("%d",strt[0]);
 	for(i=0;gant[i]!=99 && i<n ;i++)
 	{
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),i+1);
@@ -168,13 +163,20 @@ gant_chart(int gant[n],int r[n],int strt)
 		printf("P%d",gant[i]);
 		gotoxy(35+j,2*n+16);
 		printf("%c%c%c%c%c%c",219,219,219,219,219,219);
-		gotoxy(40+j,2*n+17);
-		printf("%d",r[i]);
+		gotoxy(35+j,2*n+17);
+		printf("%d",strt[i]);
+	    //finding the no of digits in end[i]
+	    int d=1;
+	    if(end[i]%10<=99 && end[i]%10>=10)
+	    d=2;
+	    else if(end[i]%10<=999 && end[i]%10>=100)
+	    d=3;
+		gotoxy(40+j-d,2*n+17);
+		printf("%d",end[i]);
 		
 	}
 }
 ////////////////////////////////////////////////////
-//for creating the frame for the process table
 void frame()
 {
 	
@@ -254,7 +256,6 @@ void frame()
 	}
 }
 /////////////////////////////////////////////////////////////////////////////
-//displaying all the value inside  the table
 void display(struct Process P[n])
 {
 	//frame();
@@ -329,7 +330,6 @@ void display(struct Process P[n])
 	
 }
 ///////////////////////////////////////////////////////////////////////////////
-// main program executes here
 int main()
 {
 	homepage();
@@ -348,7 +348,8 @@ int main()
 	gotoxy(30,7);
 	scanf("%d",&n);
 	system("cls");
-	int gant[n],r[n];
+	
+	int gant[n],end[n],strt[n];
     struct Process P[n];
     ///////initallizing the struct
     for(i=0;i<n;i++)
@@ -450,10 +451,11 @@ int main()
         P[temp_i].turnaround_time=P[temp_i].completion_time-P[temp_i].arrival_time;
         P[temp_i].waiting_time=P[temp_i].turnaround_time-P[temp_i].burst_time;
         gant[v]=P[temp_i].P_ID;
-        r[v++]=P[temp_i].completion_time;
+        strt[v]=P[temp_i].completion_time-P[temp_i].burst_time;
+        end[v++]=P[temp_i].completion_time;
         display(P);
-        gant_chart(gant,r,P[0].arrival_time);
-        
+        gant_chart(gant,end,strt);
+        //here  is for the completion time of each process
         getch();
         P[temp_i].flag=555;
         time_t+=temp_opt;
