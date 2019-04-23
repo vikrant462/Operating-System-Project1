@@ -369,7 +369,17 @@ int main()
     	gotoxy(33,6+l);
 	    scanf("%d",&P[i].arrival_time);
 	    
-	    P[i].burst_time=2*P[i].arrival_time;
+	    gotoxy(33,2*n+10);
+    	printf("                                            ");
+		
+	    gotoxy(33,2*n+10);
+	    printf("Enter burst time for process %d\n",i+1);
+	    gotoxy(48,6+l);
+	    scanf("%d",&P[i].burst_time);
+		
+		gotoxy(33,2*n+10);
+	    printf("                                            ");
+	    //P[i].burst_time=2*P[i].arrival_time;
 	    burst_count+=P[i].burst_time;
 	}
 	
